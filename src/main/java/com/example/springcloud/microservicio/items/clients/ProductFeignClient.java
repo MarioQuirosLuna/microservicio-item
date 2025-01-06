@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.springcloud.microservicio.items.models.ProductDto;
 
-@FeignClient(name = "microservicio-product", url = "localhost:8001/api/products")
+@FeignClient(name = "microservicio-product")
 public interface ProductFeignClient {
     
-    @GetMapping
+    @GetMapping("/api/products")
     List<ProductDto> findAll();
 
-    @GetMapping("/{id}")
+    @GetMapping("/api/products/{id}")
     ProductDto details(@PathVariable Long id);
 }

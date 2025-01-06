@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.example.springcloud.microservicio.items.clients.ProductFeignClient;
@@ -14,6 +15,7 @@ import com.example.springcloud.microservicio.items.models.ProductDto;
 
 import feign.FeignException;
 
+//@Primary //Funciona para identificar cual implementacion es por defecto cual se tienen 2 beans (feign y WebClient)
 @Service
 public class ItemServiceFeign implements ItemService{
 

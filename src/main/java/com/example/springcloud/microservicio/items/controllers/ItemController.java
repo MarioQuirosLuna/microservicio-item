@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ItemController {
 
     @Autowired
-    private ItemService service;
+    private @Qualifier("itemServiceWebClient") ItemService service;//Qualifier define cual implemetacion se usa (feign y WebClient)
+
+    //@Autowired
+    //private @Qualifier("itemServiceFeign") ItemService service; //Qualifier define cual implemetacion se usa (feign y WebClient)
 
     @GetMapping("")
     public List<Item> list() {

@@ -12,6 +12,8 @@ import com.example.springcloud.microservicio.items.clients.ProductFeignClient;
 import com.example.springcloud.microservicio.items.models.Item;
 import com.example.springcloud.microservicio.items.models.ProductDto;
 
+import feign.FeignException;
+
 @Service
 public class ItemServiceFeign implements ItemService{
 
@@ -28,11 +30,12 @@ public class ItemServiceFeign implements ItemService{
 
     @Override
     public Optional<Item> findById(Long id) {
-        ProductDto product = client.details(id);
-        if(product == null){
+        try {
+            ProductDto product = client.details(id);
+            return Optional.of(new Item(product, new Random().nextInt(10)+1));
+        } catch (FeignException e) {
             return Optional.empty();
+
         }
-        return Optional.of(new Item(client.details(id), new Random().nextInt(10)+1));
     }
-    
 }

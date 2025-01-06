@@ -11,14 +11,16 @@ import com.example.springcloud.microservicio.items.models.Item;
 import com.example.springcloud.microservicio.items.services.ItemService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
+@RequestMapping("/api/items")
 public class ItemController {
 
     @Autowired
     private ItemService service;
 
-    @GetMapping
+    @GetMapping("")
     public List<Item> list() {
         return service.findAll();
     }

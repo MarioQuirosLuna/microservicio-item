@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.springcloud.microservicio.items.models.ProductDto;
 
-@FeignClient(url = "localhost:8001")
+@FeignClient(name = "microservicio-product", url = "localhost:8001/api/products")
 public interface ProductFeignClient {
     
     @GetMapping

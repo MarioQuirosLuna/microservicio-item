@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
+//import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.example.springcloud.microservicio.items.clients.ProductFeignClient;

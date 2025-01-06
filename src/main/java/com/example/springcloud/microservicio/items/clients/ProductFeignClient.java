@@ -11,9 +11,9 @@ import com.example.springcloud.microservicio.items.models.ProductDto;
 @FeignClient(name = "microservicio-product")
 public interface ProductFeignClient {
     
-    @GetMapping("/api/products")
+    @GetMapping("")
     List<ProductDto> findAll();
 
-    @GetMapping("/api/products/{id}")
+    @GetMapping("/{id}")
     ProductDto details(@PathVariable Long id);
 }

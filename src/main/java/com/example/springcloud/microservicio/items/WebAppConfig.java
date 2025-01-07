@@ -26,11 +26,13 @@ public class WebAppConfig {
                         .failureRateThreshold(50)
                         .waitDurationInOpenState(Duration.ofSeconds(10L))
                         .permittedNumberOfCallsInHalfOpenState(5)
+                        .slowCallDurationThreshold(Duration.ofSeconds(2L))//Llamada lenta 2seg
+                        .slowCallRateThreshold(50)
                         .build())
                 .timeLimiterConfig(
                     TimeLimiterConfig
                         .custom()
-                        .timeoutDuration(Duration.ofSeconds(3L))
+                        .timeoutDuration(Duration.ofSeconds(4L))//TimeOut 4Seg
                         .build())
                 .build();
         });

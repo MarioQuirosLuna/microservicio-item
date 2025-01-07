@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.springcloud.microservicio.items.models.Item;
 import com.example.springcloud.microservicio.items.models.ProductDto;
 import com.example.springcloud.microservicio.items.services.ItemService;
+
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -66,5 +71,66 @@ public class ItemController {
             .body(Collections.singletonMap(
                 "message", 
                 "No existe el producto en el microservicio microservicio-product"));
+    }
+
+    //SOLO CIRCUIT BREAKER
+    @CircuitBreaker(name = "items", fallbackMethod = "getFallBackMethodProduct") //Solo con application.yml/application.properties
+    @GetMapping("/details/{id}")
+    public ResponseEntity<?> details2(@PathVariable Long id) {
+        Optional<Item> itemOptional = service.findById(id);
+        if(itemOptional.isPresent()){
+            return ResponseEntity.ok(itemOptional.get());
+        }
+        return ResponseEntity.status(404)
+            .body(Collections.singletonMap(
+                "message", 
+                "No existe el producto en el microservicio microservicio-product"));
+    }
+
+    //COMBINADO TIME OUT Y CIRCUIT BREAKER
+    @CircuitBreaker(name="items", fallbackMethod = "getFallBackMethodProduct2")
+    @TimeLimiter(name = "items")
+    @GetMapping("/details3/{id}")
+    public CompletableFuture<?> details3(@PathVariable Long id) {
+        return CompletableFuture.supplyAsync(() -> {
+            Optional<Item> itemOptional = service.findById(id);
+            
+            if(itemOptional.isPresent()){
+                return ResponseEntity.ok(itemOptional.get());
+            }
+            
+            return ResponseEntity.status(404)
+                .body(Collections.singletonMap(
+                    "message", 
+                    "No existe el producto en el microservicio microservicio-product"));
+        }); 
+    }
+
+    public ResponseEntity<?> getFallBackMethodProduct(Throwable e) {
+        System.out.println(e.getMessage());
+        logger.error(e.getMessage());
+
+        // PARA PRUEBAS SE HACE UN PRODUCTO FICTICIO
+        ProductDto productDto = new ProductDto();
+        productDto.setId(1L);
+        productDto.setName("Camara Sony");
+        productDto.setPrice(500.00);
+        productDto.setCreateAt(LocalDate.now());
+        return ResponseEntity.ok(new Item(productDto, 5));
+    }
+
+    public CompletableFuture<?> getFallBackMethodProduct2(Throwable e) {
+        return CompletableFuture.supplyAsync(() -> {
+            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
+
+            // PARA PRUEBAS SE HACE UN PRODUCTO FICTICIO
+            ProductDto productDto = new ProductDto();
+            productDto.setId(1L);
+            productDto.setName("Camara Sony");
+            productDto.setPrice(500.00);
+            productDto.setCreateAt(LocalDate.now());
+            return ResponseEntity.ok(new Item(productDto, 5));
+        });
     }
 }

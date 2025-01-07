@@ -40,7 +40,7 @@ public class ItemServiceWebClient implements ItemService{
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
 
-        try {
+        //try { //Como se maneja camino alternativo con Resilience4J se quita el manejo de exceptiones
             return Optional.of(this.client
                 .build()
                 .get()
@@ -50,9 +50,9 @@ public class ItemServiceWebClient implements ItemService{
                     .bodyToMono(ProductDto.class)
                 .map(p -> new Item(p, new Random().nextInt(10)+1))
                     .block());
-        } catch (WebClientResponseException e) {
-            return Optional.empty();
-        }
+        // catch (WebClientResponseException e) {
+        //    return Optional.empty();
+        //}
 
     }
     

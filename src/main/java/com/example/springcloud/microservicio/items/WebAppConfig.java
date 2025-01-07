@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+import io.github.resilience4j.timelimiter.TimeLimiterConfig;
 
 @Configuration
 public class WebAppConfig {
@@ -25,6 +26,11 @@ public class WebAppConfig {
                         .failureRateThreshold(50)
                         .waitDurationInOpenState(Duration.ofSeconds(10L))
                         .permittedNumberOfCallsInHalfOpenState(5)
+                        .build())
+                .timeLimiterConfig(
+                    TimeLimiterConfig
+                        .custom()
+                        .timeoutDuration(Duration.ofSeconds(3L))
                         .build())
                 .build();
         });

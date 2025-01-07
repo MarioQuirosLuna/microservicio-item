@@ -18,6 +18,8 @@ public class WebAppConfig {
     Customizer<Resilience4JCircuitBreakerFactory> customizarCircuitBreaker(){
 
         return (factory) -> factory.configureDefault(id -> {
+            //ESTA CONFIGURACION SE PUEDE HACER POR (application.yml)
+            //LOS ARCHIVOS YML TIENEN PRIORIDAD
             return new Resilience4JConfigBuilder(id)
                 .circuitBreakerConfig(
                     CircuitBreakerConfig

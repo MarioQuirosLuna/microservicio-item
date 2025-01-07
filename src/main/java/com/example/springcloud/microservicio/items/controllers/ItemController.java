@@ -13,6 +13,8 @@ import com.example.springcloud.microservicio.items.models.Item;
 import com.example.springcloud.microservicio.items.services.ItemService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class ItemController {
@@ -24,7 +26,9 @@ public class ItemController {
     //private @Qualifier("itemServiceFeign") ItemService service; //Qualifier define cual implemetacion se usa (feign y WebClient)
 
     @GetMapping("")
-    public List<Item> list() {
+    public List<Item> list(@RequestParam(name="name", required=false) String name, @RequestHeader(name="token-request", required = false) String tokenRequest) {
+        System.out.println("RequestParam name: " + name);
+        System.out.println("RequestHeader token-request: " + tokenRequest);
         return service.findAll();
     }
 

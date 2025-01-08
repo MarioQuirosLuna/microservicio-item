@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
+//import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import com.example.springcloud.microservicio.items.models.Item;
 import com.example.springcloud.microservicio.items.models.ProductDto;

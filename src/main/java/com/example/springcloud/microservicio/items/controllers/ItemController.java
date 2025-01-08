@@ -31,6 +31,7 @@ public class ItemController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @SuppressWarnings("rawtypes")
     @Autowired
     private CircuitBreakerFactory cBreakerFactory;
 

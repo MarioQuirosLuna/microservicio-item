@@ -40,4 +40,22 @@ public class ItemServiceFeign implements ItemService{
 
         }
     }
+
+    @Override
+    public ProductDto save(ProductDto productDto) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'save'");
+    }
+
+    @Override
+    public ProductDto update(ProductDto productDto, Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    }
+
+    @Override
+    public void delete(Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    }
 }

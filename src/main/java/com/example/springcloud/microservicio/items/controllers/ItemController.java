@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,8 +39,11 @@ public class ItemController {
     @Autowired
     private CircuitBreakerFactory cBreakerFactory;
 
-    @Value("${configuracion.texto}")
+    @Value("${configuration.text}")
     private String text;
+
+    @Autowired
+    private Environment env;
 
     @Autowired
     private @Qualifier("itemServiceWebClient") ItemService service;//Qualifier define cual implemetacion se usa (feign y WebClient)
@@ -60,6 +64,12 @@ public class ItemController {
         json.put("text", text);
         json.put("port", port);
         logger.info(port+" - "+text);
+
+        if(env.getActiveProfiles().length > 0 && env.getActiveProfiles()[0].equals("dev")){
+            json.put("autor.name", env.getProperty("configuration.autor.name"));
+            json.put("autor.email", env.getProperty("configuration.autor.email"));
+        }
+
         return ResponseEntity.ok(json);
     }
     

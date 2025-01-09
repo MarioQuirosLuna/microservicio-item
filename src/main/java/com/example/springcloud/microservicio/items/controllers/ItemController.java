@@ -20,8 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.libs.microservicio.commons.entities.Product;
 import com.example.springcloud.microservicio.items.models.Item;
-import com.example.springcloud.microservicio.items.models.ProductDto;
 import com.example.springcloud.microservicio.items.services.ItemService;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -148,7 +148,7 @@ public class ItemController {
         logger.error(e.getMessage());
 
         // PARA PRUEBAS SE HACE UN PRODUCTO FICTICIO
-        ProductDto productDto = new ProductDto();
+        Product productDto = new Product();
         productDto.setId(1L);
         productDto.setName("Camara Sony");
         productDto.setPrice(500.00);
@@ -162,7 +162,7 @@ public class ItemController {
             logger.error(e.getMessage());
 
             // PARA PRUEBAS SE HACE UN PRODUCTO FICTICIO
-            ProductDto productDto = new ProductDto();
+            Product productDto = new Product();
             productDto.setId(1L);
             productDto.setName("Camara Sony");
             productDto.setPrice(500.00);
@@ -174,13 +174,13 @@ public class ItemController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductDto postMethodName(@RequestBody ProductDto productDto) {
+    public Product postMethodName(@RequestBody Product productDto) {
         return service.save(productDto);
     }
     
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductDto update(@RequestBody ProductDto productDto, @PathVariable Long id) {
+    public Product update(@RequestBody Product productDto, @PathVariable Long id) {
         return service.update(productDto, id);
     }
 

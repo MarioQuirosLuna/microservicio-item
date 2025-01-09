@@ -1,17 +1,19 @@
 package com.example.springcloud.microservicio.items.models;
 
+import com.example.libs.microservicio.commons.entities.Product;
+
 public class Item {
-    private ProductDto product;
+    private Product product;
     private int quantity;
 
-    public Item(ProductDto product, int quantity) {
+    public Item(Product product, int quantity) {
         this.product = product;
         this.quantity = quantity;
     }
-    public ProductDto getProduct() {
+    public Product getProduct() {
         return product;
     }
-    public void setProduct(ProductDto product) {
+    public void setProduct(Product product) {
         this.product = product;
     }
     public int getQuantity() {

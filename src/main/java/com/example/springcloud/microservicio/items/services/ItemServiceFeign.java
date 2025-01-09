@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import com.example.libs.microservicio.commons.entities.Product;
 import com.example.springcloud.microservicio.items.clients.ProductFeignClient;
 import com.example.springcloud.microservicio.items.models.Item;
-import com.example.springcloud.microservicio.items.models.ProductDto;
 
 import feign.FeignException;
 
@@ -33,7 +33,7 @@ public class ItemServiceFeign implements ItemService{
     @Override
     public Optional<Item> findById(Long id) {
         try {
-            ProductDto product = client.details(id);
+            Product product = client.details(id);
             return Optional.of(new Item(product, new Random().nextInt(10)+1));
         } catch (FeignException e) {
             return Optional.empty();
@@ -42,12 +42,12 @@ public class ItemServiceFeign implements ItemService{
     }
 
     @Override
-    public ProductDto save(ProductDto productDto) {
+    public Product save(Product productDto) {
         return client.create(productDto);
     }
 
     @Override
-    public ProductDto update(ProductDto productDto, Long id) {
+    public Product update(Product productDto, Long id) {
         return client.update(productDto, id);
     }
 

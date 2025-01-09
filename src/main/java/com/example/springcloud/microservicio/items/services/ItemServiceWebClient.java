@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 //import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import com.example.libs.microservicio.commons.entities.Product;
 import com.example.springcloud.microservicio.items.models.Item;
-import com.example.springcloud.microservicio.items.models.ProductDto;
 
 //@Primary //Funciona para identificar cual implementacion es por defecto cual se tienen 2 beans (feign y WebClient)
 @Service
@@ -29,7 +29,7 @@ public class ItemServiceWebClient implements ItemService {
                 .get()
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToFlux(ProductDto.class)
+                .bodyToFlux(Product.class)
                 .map(p -> new Item(p, new Random().nextInt(10) + 1))
                 .collectList()
                 .block();
@@ -48,7 +48,7 @@ public class ItemServiceWebClient implements ItemService {
                 .uri("/{id}", params)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToMono(ProductDto.class)
+                .bodyToMono(Product.class)
                 .map(p -> new Item(p, new Random().nextInt(10) + 1))
                 .block());
         // catch (WebClientResponseException e) {
@@ -58,19 +58,19 @@ public class ItemServiceWebClient implements ItemService {
     }
 
     @Override
-    public ProductDto save(ProductDto productDto) {
+    public Product save(Product productDto) {
         return client
                 .build()
                 .post()
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(productDto)
                 .retrieve()
-                .bodyToMono(ProductDto.class)
+                .bodyToMono(Product.class)
                 .block();
     }
 
     @Override
-    public ProductDto update(ProductDto productDto, Long id) {
+    public Product update(Product productDto, Long id) {
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
 
@@ -81,7 +81,7 @@ public class ItemServiceWebClient implements ItemService {
                 .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(productDto)
                 .retrieve()
-                .bodyToMono(ProductDto.class)
+                .bodyToMono(Product.class)
                 .block();
     }
 

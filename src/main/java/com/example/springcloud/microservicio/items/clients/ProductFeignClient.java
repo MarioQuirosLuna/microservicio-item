@@ -10,22 +10,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.example.springcloud.microservicio.items.models.ProductDto;
+import com.example.libs.microservicio.commons.entities.Product;
 
 @FeignClient(name = "microservicio-product")
 public interface ProductFeignClient {
     
     @GetMapping("")
-    List<ProductDto> findAll();
+    List<Product> findAll();
 
     @GetMapping("/{id}")
-    ProductDto details(@PathVariable Long id);
+    Product details(@PathVariable Long id);
 
     @PostMapping
-    public ProductDto create(@RequestBody ProductDto productDto);
+    public Product create(@RequestBody Product productDto);
 
     @PutMapping
-    public ProductDto update(@RequestBody ProductDto productDto, @PathVariable Long id);
+    public Product update(@RequestBody Product productDto, @PathVariable Long id);
 
     @DeleteMapping
     public void delete(@PathVariable Long id);

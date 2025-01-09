@@ -55,11 +55,11 @@ public class ItemController {
     @Autowired
     private Environment env;
 
-    @Autowired
-    private @Qualifier("itemServiceWebClient") ItemService service;//Qualifier define cual implemetacion se usa (feign y WebClient)
-
     //@Autowired
-    //private @Qualifier("itemServiceFeign") ItemService service; //Qualifier define cual implemetacion se usa (feign y WebClient)
+    //private @Qualifier("itemServiceWebClient") ItemService service;//Qualifier define cual implemetacion se usa (feign y WebClient)
+
+    @Autowired
+    private @Qualifier("itemServiceFeign") ItemService service; //Qualifier define cual implemetacion se usa (feign y WebClient)
 
     @GetMapping("")
     public List<Item> list(@RequestParam(name="name", required=false) String name, @RequestHeader(name="token-request", required = false) String tokenRequest) {
